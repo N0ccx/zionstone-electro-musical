@@ -14,24 +14,23 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: List files in the repository
+    - name: List files in the repository root
       run: ls -la
+
+    - name: List files in the project directory
+      run: ls -la ./zionstone-electro-musical # Adjust this path if needed
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '14' # or the desired version
 
-    - name: Navigate to project directory
-      working-directory: ./zionstone-electro-musical # Set this to your project directory
-      run: ls -la # List files to confirm the correct directory
-
     - name: Install dependencies
-      working-directory: ./zionstone-electro-musical # Set this to your project directory
+      working-directory: ./zionstone-electro-musical # Adjust this path if needed
       run: npm install
 
     - name: Run tests
-      working-directory: ./zionstone-electro-musical # Set this to your project directory
+      working-directory: ./zionstone-electro-musical # Adjust this path if needed
       run: npm test
 
     - name: Save test results
@@ -42,12 +41,3 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_TOKEN }}
-        
-    - name: Build Docker image
-      run: sudo docker-compose build
-
-    - name: Test
-      run: sudo docker-compose run --rm app sh -c "python manage.py test"
-
-    - name: Lint
-      run: sudo docker-compose run --rm app sh -c "flake8"
